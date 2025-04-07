@@ -3,12 +3,17 @@ package com.example.passwordmanager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.security.SecureRandom
 
 class GeneratePasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +70,33 @@ class GeneratePasswordActivity : AppCompatActivity() {
             AuthUtils.goBack(this)
         }
 
+        val generateButton = findViewById<Button>(R.id.generatePasswordActivityGeneratePasswordButton)
+        val charRequirement = findViewById<TextView>(R.id.CharRequirementReadout)
+        val uppercaseRequired = findViewById<CheckBox>(R.id.checkBoxUpperCaseRequirement)
+        val numbersRequired = findViewById<CheckBox>(R.id.checkBoxNumberCaseRequirement)
+        val specialCharactersRequiredRequired = findViewById<CheckBox>(R.id.checkBoxSpecialCharacterRequirement)
+        generateButton.setOnClickListener{
+            val passwordLength = charRequirement.text.toString().toInt()
+            if(passwordLength > 4) {
+                val newPassword = generatePassword(passwordLength, uppercaseRequired.isChecked, numbersRequired.isChecked, specialCharactersRequiredRequired.isChecked)
+                val generatedPassword =
+                    findViewById<TextView>(R.id.generatePasswordActivityGeneratePasswordEditText)
+                generatedPassword.setText(newPassword)
+            }
+            else{
+                Toast.makeText(this, "Password too short, try 5 characters or longer.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
 
     }
+
+    private fun generatePassword(passwordLength: Int, uppercaseRequired: Boolean, numbersRequired: Boolean, specialCharactersRequired: Boolean): String {
+        val generator = PasswordGenerator()
+        var password = generator.generatePassword(passwordLength, uppercaseRequired, numbersRequired, specialCharactersRequired)
+        return password.toString()
+    }
+
+
 }
