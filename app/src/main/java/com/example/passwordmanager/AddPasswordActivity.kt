@@ -3,10 +3,13 @@ package com.example.passwordmanager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.w3c.dom.Text
 
 class AddPasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,5 +42,13 @@ class AddPasswordActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             AuthUtils.goBack(this)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val passwordBox = findViewById<TextView>(R.id.addPasswordActivityPasswordEditText)
+        val newPW = AuthUtils.getGeneratedPassword()
+        passwordBox.setText(newPW)
+        Toast.makeText(this, newPW, Toast.LENGTH_SHORT).show()
     }
 }
