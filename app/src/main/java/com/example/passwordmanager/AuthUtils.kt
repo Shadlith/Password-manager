@@ -3,9 +3,12 @@ package com.example.passwordmanager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 
 object AuthUtils {
+
+    private var generatedPassword = ""
 
     fun logout(context: Context) {
         // Clear user data (shared preferences, sessions, etc.)
@@ -36,6 +39,16 @@ object AuthUtils {
         // - Minimum eight characters: .{8,} **EDIT FOR MORE CHARACTERS OR MADE DYNAMIC FROM SLIDER**
         val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&]).{8,}\$"
         return Regex(passwordPattern).matches(password)
+    }
+
+    fun setGeneratedPassword(password: String) {
+        generatedPassword = password
+    }
+
+    fun getGeneratedPassword(): String{
+        val pw = generatedPassword
+        generatedPassword = ""
+        return pw
     }
 
 }

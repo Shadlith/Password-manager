@@ -70,23 +70,31 @@ class GeneratePasswordActivity : AppCompatActivity() {
             AuthUtils.goBack(this)
         }
 
+
+
         val generateButton = findViewById<Button>(R.id.generatePasswordActivityGeneratePasswordButton)
         val charRequirement = findViewById<TextView>(R.id.CharRequirementReadout)
         val uppercaseRequired = findViewById<CheckBox>(R.id.checkBoxUpperCaseRequirement)
         val numbersRequired = findViewById<CheckBox>(R.id.checkBoxNumberCaseRequirement)
         val specialCharactersRequiredRequired = findViewById<CheckBox>(R.id.checkBoxSpecialCharacterRequirement)
+        var generatedPassword =
+            findViewById<TextView>(R.id.generatePasswordActivityGeneratePasswordEditText)
         generateButton.setOnClickListener{
             val passwordLength = charRequirement.text.toString().toInt()
             if(passwordLength > 4) {
                 val newPassword = generatePassword(passwordLength, uppercaseRequired.isChecked, numbersRequired.isChecked, specialCharactersRequiredRequired.isChecked)
-                val generatedPassword =
-                    findViewById<TextView>(R.id.generatePasswordActivityGeneratePasswordEditText)
                 generatedPassword.setText(newPassword)
             }
             else{
                 Toast.makeText(this, "Password too short, try 5 characters or longer.", Toast.LENGTH_SHORT).show()
             }
 
+        }
+
+        val acceptButton = findViewById<Button>(R.id.generatePasswordActivityAcceptGeneratedPasswordButton)
+        acceptButton.setOnClickListener{
+            acceptPassword(generatedPassword.text.toString())
+            AuthUtils.goBack(this)
         }
 
 
@@ -96,6 +104,11 @@ class GeneratePasswordActivity : AppCompatActivity() {
         val generator = PasswordGenerator()
         var password = generator.generatePassword(passwordLength, uppercaseRequired, numbersRequired, specialCharactersRequired)
         return password.toString()
+    }
+
+    private fun acceptPassword(generatedPassword: String) {
+        AuthUtils.setGeneratedPassword(generatedPassword)
+        AuthUtils.goBack(this)
     }
 
 
