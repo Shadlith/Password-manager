@@ -30,17 +30,34 @@ class AddPasswordActivity : AppCompatActivity() {
         // val xyz = intent.getStringExtra("EXTRA_KEY") RECEIVES DATA FROM ANOTHER ACTIVITY
         val addPasswordButton = findViewById<Button>(R.id.addPasswordActivityAddPasswordButton)
         addPasswordButton.setOnClickListener {
-            runBlocking {
-                DBHelper.getInstance(applicationContext).dao.insert(
-                    PasswordEntity(
-                        siteName = siteNameEditText.text.toString(),
-                        username = usernameEditText.text.toString(),
-                        password = passwordEditText.text.toString()
-                    )
-                )
+
+            var violation = false
+            if(siteNameEditText.text.toString() == "") {
+                siteNameEditText.setError("No Site Provided!")
+                violation = true
             }
-            val intent = Intent(this, PasswordListActivity::class.java)
-            startActivity(intent)
+            if(usernameEditText.text.toString() == "") {
+                usernameEditText.setError("No Username Provided!")
+                violation = true
+            }
+            if(passwordEditText.text.toString() == "") {
+                passwordEditText.setError("No Site Provided!")
+                violation = true
+            }
+
+            if(!violation) {
+                runBlocking {
+                    DBHelper.getInstance(applicationContext).dao.insert(
+                        PasswordEntity(
+                            siteName = siteNameEditText.text.toString(),
+                            username = usernameEditText.text.toString(),
+                            password = passwordEditText.text.toString()
+                        )
+                    )
+                }
+                val intent = Intent(this, PasswordListActivity::class.java)
+                startActivity(intent)
+            }
         }
         val generatePasswordButton = findViewById<Button>(R.id.addPasswordActivityGeneratePasswordButton)
         generatePasswordButton.setOnClickListener {

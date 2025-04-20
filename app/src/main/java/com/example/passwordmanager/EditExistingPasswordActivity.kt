@@ -47,15 +47,29 @@ class EditExistingPasswordActivity : AppCompatActivity() {
 
         val updateButton = findViewById<Button>(R.id.editPasswordActivityUpdateButton)
         updateButton.setOnClickListener {
-            runBlocking {
-                DBHelper.getInstance(applicationContext).dao.update(PasswordEntity(
-                    id = primaryKey,
-                    siteName = siteNameTextView.text.toString(),
-                    username = usernameEditText.text.toString(),
-                    password = passwordEditText.text.toString()
-                ))
+
+            var violation = false
+            if(usernameEditText.text.toString() == "") {
+                usernameEditText.setError("No Username Provided!")
+                violation = true
             }
-            AuthUtils.goBack(this)
+            if(passwordEditText.text.toString() == "") {
+                passwordEditText.setError("No Site Provided!")
+                violation = true
+            }
+            if(!violation) {
+                runBlocking {
+                    DBHelper.getInstance(applicationContext).dao.update(
+                        PasswordEntity(
+                            id = primaryKey,
+                            siteName = siteNameTextView.text.toString(),
+                            username = usernameEditText.text.toString(),
+                            password = passwordEditText.text.toString()
+                        )
+                    )
+                }
+                AuthUtils.goBack(this)
+            }
         }
 
         val deleteButton = findViewById<Button>(R.id.editPasswordActivityDeleteButton)
