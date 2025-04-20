@@ -5,14 +5,17 @@ import androidx.room.*
 @Dao
 interface PasswordDao {
     @Query("SELECT * FROM passwordentity")
-    fun getAll(): List<PasswordEntity>
+    suspend fun getAll(): List<PasswordEntity>
+
+    @Query("SELECT * FROM passwordentity WHERE id = :primaryKey")
+    suspend fun get(primaryKey: Int): PasswordEntity
 
     @Insert
-    fun insert(password: PasswordEntity)
+    suspend fun insert(password: PasswordEntity)
 
     @Update
-    fun update(password: PasswordEntity)
+    suspend fun update(password: PasswordEntity)
 
     @Delete
-    fun delete(password: PasswordEntity)
+    suspend fun delete(password: PasswordEntity)
 }

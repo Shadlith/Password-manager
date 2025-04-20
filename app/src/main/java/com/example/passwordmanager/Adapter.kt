@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(
-    private val itemList: List<RouteListingPreference.Item>,
+    private val itemList: List<PasswordEntity>,
     private val context: Context
 ) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.passwordListActivityRecyclerView)
+        val siteNameTextField: TextView = itemView.findViewById<TextView>(R.id.site_name)
 
         init {
             itemView.setOnClickListener {
@@ -24,9 +24,8 @@ class Adapter(
                     // Get the clicked item
                     val clickedItem = itemList[position]
                     // Create an Intent to start the Activity
-                    val intent = Intent(context, EditExistingPasswordActivity::class.java).apply {
-
-                    }
+                    val intent = Intent(context, EditExistingPasswordActivity::class.java)
+                    intent.putExtra("primary_key", itemList[position].id)
                     context.startActivity(intent)
                 }
             }
@@ -34,11 +33,15 @@ class Adapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val entry = itemList.get(position)
+        val siteName = holder.siteNameTextField.setText(entry.siteName)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val listItemView = inflater.inflate(R.layout.password_row_item, parent, false)
+        return ViewHolder(listItemView)
     }
 
     /* override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
