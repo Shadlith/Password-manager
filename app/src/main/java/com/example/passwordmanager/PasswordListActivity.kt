@@ -16,16 +16,19 @@ class PasswordListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_password_list)
+
+        val masterPassword = intent.getStringExtra("master_password") ?: ""
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val tempContext = this
         val dbEntries = runBlocking {
-            DBHelper.getInstance(tempContext).dao.getAll()
+            DBHelper.getInstance(applicationContext, masterPassword).dao.getAll()
         }
+
         val passwordRecyclerView =
             findViewById<RecyclerView>(R.id.passwordListActivityRecyclerView)
         passwordRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -35,6 +38,7 @@ class PasswordListActivity : AppCompatActivity() {
         val addPasswordButton = findViewById<Button>(R.id.passwordListActivityAddPasswordButton)
         addPasswordButton.setOnClickListener {
             val intent = Intent(this, AddPasswordActivity::class.java)
+            intent.putExtra("master_password", masterPassword)
 
              // intent.putExtra("EXTRA_KEY", "Some data") PASS DATA TO ANOTHER ACTIVITY
 

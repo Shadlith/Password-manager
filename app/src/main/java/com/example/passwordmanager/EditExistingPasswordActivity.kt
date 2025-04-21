@@ -17,9 +17,11 @@ class EditExistingPasswordActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_existing_password)
 
+        val masterPassword = intent.getStringExtra("master_password") ?: ""
+
         val primaryKey = intent.getIntExtra("primary_key", 0)
         val passwordEntry = runBlocking {
-            DBHelper.getInstance(applicationContext).dao.get(primaryKey)
+            DBHelper.getInstance(applicationContext, masterPassword).dao.get(primaryKey)
         }
 
         val siteNameTextView = findViewById<TextView>(R.id.editPasswordActivitySiteTextView)
@@ -59,7 +61,7 @@ class EditExistingPasswordActivity : AppCompatActivity() {
             }
             if(!violation) {
                 runBlocking {
-                    DBHelper.getInstance(applicationContext).dao.update(
+                    DBHelper.getInstance(applicationContext, masterPassword).dao.update(
                         PasswordEntity(
                             id = primaryKey,
                             siteName = siteNameTextView.text.toString(),
@@ -75,9 +77,10 @@ class EditExistingPasswordActivity : AppCompatActivity() {
         val deleteButton = findViewById<Button>(R.id.editPasswordActivityDeleteButton)
         deleteButton.setOnClickListener {
             runBlocking {
-                DBHelper.getInstance(applicationContext).dao.delete(passwordEntry)
+                DBHelper.getInstance(applicationContext, masterPassword).dao.delete(passwordEntry)
             }
             val intent = Intent(this, PasswordListActivity::class.java)
+            intent.putExtra("master_password", masterPassword)
             startActivity(intent)
         }
     }

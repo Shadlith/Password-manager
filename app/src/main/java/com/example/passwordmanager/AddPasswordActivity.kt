@@ -16,6 +16,7 @@ class AddPasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContentView(R.layout.activity_add_password)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -23,6 +24,7 @@ class AddPasswordActivity : AppCompatActivity() {
             insets
         }
 
+        val masterPassword = intent.getStringExtra("master_password") ?: ""
         val siteNameEditText = findViewById<EditText>(R.id.addPasswordActivitySiteUrlEditText)
         val usernameEditText = findViewById<EditText>(R.id.addPasswordActivityUsernameEditText)
         val passwordEditText = findViewById<EditText>(R.id.addPasswordActivityPasswordEditText)
@@ -47,7 +49,7 @@ class AddPasswordActivity : AppCompatActivity() {
 
             if(!violation) {
                 runBlocking {
-                    DBHelper.getInstance(applicationContext).dao.insert(
+                    DBHelper.getInstance(applicationContext, masterPassword).dao.insert(
                         PasswordEntity(
                             siteName = siteNameEditText.text.toString(),
                             username = usernameEditText.text.toString(),
@@ -56,6 +58,7 @@ class AddPasswordActivity : AppCompatActivity() {
                     )
                 }
                 val intent = Intent(this, PasswordListActivity::class.java)
+                intent.putExtra("master_password", masterPassword)
                 startActivity(intent)
             }
         }
