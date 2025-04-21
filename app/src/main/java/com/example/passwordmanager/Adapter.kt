@@ -18,7 +18,7 @@ class Adapter(
         val siteNameTextField: TextView = itemView.findViewById<TextView>(R.id.site_name)
 
         init {
-            itemView.setOnClickListener {
+            siteNameTextField.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     // Get the clicked item

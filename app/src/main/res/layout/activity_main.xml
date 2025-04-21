@@ -30,20 +30,33 @@
         android:text="Log In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainActivityPasswordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/mainActivityPasswordEditText"
+        app:layout_constraintVertical_bias="0.394" />
 
-    <Button
-        android:id="@+id/mainActivityLoginButton2"
-        android:layout_width="123dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="144dp"
-        android:layout_marginEnd="144dp"
-        android:text="Change Password"
-        app:layout_constraintBottom_toTopOf="@+id/mainActivityLoginButton"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/mainActivityNotice"
+        android:layout_width="323dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="4dp"
+        android:text="If this is your first time, type in the password you want and log in."
+        android:textColor="#818181"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityPasswordEditText"
+        app:layout_constraintEnd_toEndOf="@+id/mainActivityPasswordEditText"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/mainActivityPasswordEditText" />
+
+    <TextView
+        android:id="@+id/mainActivityAppTitle"
+        android:layout_width="299dp"
+        android:layout_height="91dp"
+        android:text="Simple Password Manager"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityNotice"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainActivityPasswordEditText" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

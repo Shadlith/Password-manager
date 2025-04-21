@@ -1,9 +1,12 @@
 package com.example.passwordmanager
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -82,6 +85,13 @@ class EditExistingPasswordActivity : AppCompatActivity() {
             val intent = Intent(this, PasswordListActivity::class.java)
             intent.putExtra("master_password", masterPassword)
             startActivity(intent)
+        }
+
+        val copyButton = findViewById<ImageButton>(R.id.editPasswordActivityCopyButton)
+        copyButton.setOnClickListener {
+            val clipData = ClipData.newPlainText(siteNameTextView.text.toString(), passwordEditText.text.toString())
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            clipboardManager.setPrimaryClip(clipData)
         }
     }
 }

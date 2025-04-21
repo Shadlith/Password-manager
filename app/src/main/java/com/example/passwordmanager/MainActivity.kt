@@ -25,21 +25,30 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
 
-            val correctPassword: Boolean = runBlocking {
-                try {
-                    DBHelper.getInstance(applicationContext, passwordEditText.text.toString()).dao.getAll()
-                    true
+            val databaseFile = this.applicationContext.getDatabasePath("password-db.db")
+            if (databaseFile.exists()) {
+                val correctPassword: Boolean = DBHelper.correctPassword(applicationContext, passwordEditText.text.toString())
+
+                if(correctPassword) {
+                    val intent = Intent(this, PasswordListActivity::class.java)
+                    intent.putExtra("master_password", passwordEditText.text.toString())
+                    startActivity(intent)
                 }
-                catch (e: Exception) {
-                    false
+
+                else {
+                    passwordEditText.setError("Incorrect Password")
                 }
             }
-
-            if(correctPassword) {
+            else if(passwordEditText.text.toString() == "") {
+                passwordEditText.setError("No Password Given")
+            }
+            else {
                 val intent = Intent(this, PasswordListActivity::class.java)
                 intent.putExtra("master_password", passwordEditText.text.toString())
                 startActivity(intent)
             }
+
         }
+
     }
 }

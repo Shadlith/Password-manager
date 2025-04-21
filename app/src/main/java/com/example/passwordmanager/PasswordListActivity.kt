@@ -26,11 +26,10 @@ class PasswordListActivity : AppCompatActivity() {
         }
 
         val dbEntries = runBlocking {
-            DBHelper.getInstance(applicationContext, masterPassword).dao.getAll()
+                DBHelper.getInstance(applicationContext, masterPassword).dao.getAll()
         }
 
-        val passwordRecyclerView =
-            findViewById<RecyclerView>(R.id.passwordListActivityRecyclerView)
+        val passwordRecyclerView = findViewById<RecyclerView>(R.id.passwordListActivityRecyclerView)
         passwordRecyclerView.layoutManager = LinearLayoutManager(this)
         passwordRecyclerView.adapter = Adapter(dbEntries, this)
 

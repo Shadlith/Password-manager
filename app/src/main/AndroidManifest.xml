@@ -13,6 +13,9 @@
         android:theme="@style/Theme.PasswordManager"
         tools:targetApi="31">
         <activity
+            android:name=".ChangePassword"
+            android:exported="false" />
+        <activity
             android:name=".EditExistingPasswordActivity"
             android:exported="false" />
         <activity
