@@ -88,6 +88,6 @@ class AddPasswordActivity : AppCompatActivity() {
         val passwordBox = findViewById<TextView>(R.id.addPasswordActivityPasswordEditText)
         val newPW = AuthUtils.getGeneratedPassword()
         passwordBox.setText(newPW)
-        Toast.makeText(this, newPW, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, newPW, Toast.LENGTH_SHORT).show()
     }
 }
